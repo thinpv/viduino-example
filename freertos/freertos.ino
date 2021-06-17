@@ -12,7 +12,7 @@ void setup()
   xTaskCreate(
       printTask,    /* Task function. */
       "print Task", /* name of task. */
-      10000,        /* Stack size of task */
+      1000,        /* Stack size of task */
       NULL,         /* parameter of the task */
       1,            /* priority of the task */
       NULL);        /* Task handle to keep track of created task */
@@ -20,7 +20,7 @@ void setup()
   xTaskCreate(
       blinkTask,    /* Task function. */
       "blink Task", /* name of task. */
-      10000,        /* Stack size of task */
+      1000,        /* Stack size of task */
       NULL,         /* parameter of the task */
       1,            /* priority of the task */
       NULL);        /* Task handle to keep track of created task */
