@@ -2,7 +2,7 @@
 
 #include <lvgl.h>
 #include <../lv_conf.h>
-#include "lv_demo_music.h"
+#include "src/lv_demo_music.h"
 #include "FrameBuffer.h"
 
 #define CAPACITOR_TOUCH
@@ -38,7 +38,7 @@ static lv_color_t buf[LV_HOR_RES_MAX * 10];
 /* Display flushing */
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
 {
-  framebuffer.areaPresentX(area->x1, area->x2, area->y1, area->y2, (unsigned short *)color_p);
+  framebuffer.areaPresent(area->x1, area->y1, area->x2 - area->x1 + 1, area->y2 - area->y1 + 1, (pixel_format *)color_p);
   lv_disp_flush_ready(disp);
 }
 
@@ -90,7 +90,7 @@ void setup()
 
   lv_init();
 
-  framebuffer.begin(LV_HOR_RES_MAX, LV_VER_RES_MAX, 100);
+  framebuffer.begin();
 
   lv_disp_buf_init(&disp_buf, buf, NULL, LV_HOR_RES_MAX * 10);
 
@@ -113,8 +113,7 @@ void setup()
   lv_demo_music();
 
 #ifdef CAPACITOR_TOUCH
-  Wire.setClock(400000);
-  Wire.begin();
+  Wire.begin(400000);
   if (touch.begin(INT_PIN, RST_PIN) != true)
   {
     Serial.println("Touch init failed");

@@ -1,8 +1,6 @@
 #include "Arduino.h"
-
 #include <lvgl.h>
 #include <../lv_conf.h>
-#include "lv_demo_benchmark.h"
 #include <touchscreen.h>
 #include "FrameBuffer.h"
 
@@ -19,7 +17,7 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
 	lv_disp_flush_ready(disp);
 }
 
-/* Reading input device (simulated encoder here) */
+// /* Reading input device (simulated encoder here) */
 static bool read_encoder(lv_indev_drv_t *drv, lv_indev_data_t *data)
 {
 	touchscreen.read();
@@ -30,15 +28,26 @@ static bool read_encoder(lv_indev_drv_t *drv, lv_indev_data_t *data)
 		data->state = LV_INDEV_STATE_REL;
 	else
 		data->state = LV_INDEV_STATE_PR;
-	if (temp_touch > 1)
+  if (temp_touch > 1)
+  {
+  	Serial.print(data->point.x);
+  	Serial.print(" - ");
+  	Serial.print(data->point.y);
+  	Serial.print(" --> ");
+  	Serial.println(temp_touch);
+  }
+	return false; /*No buffering now so no more data read*/
+}
+
+static lv_obj_t *slider_label;
+static void slider_event_cb(lv_obj_t *slider, lv_event_t event)
+{
+	if (event == LV_EVENT_VALUE_CHANGED)
 	{
-		Serial.print(data->point.x);
-		Serial.print(" - ");
-		Serial.print(data->point.y);
-		Serial.print(" --> ");
-		Serial.println(temp_touch);
+		static char buf[4]; /* max 3 bytes for number plus 1 null terminating byte */
+		snprintf(buf, 4, "%u", lv_slider_get_value(slider));
+		lv_label_set_text(slider_label, buf);
 	}
-	return false;
 }
 
 void setup()
@@ -46,10 +55,9 @@ void setup()
 	Serial.begin(115200);
 	Serial.println("setup start");
 
-	lv_init();
-
 	framebuffer.begin();
 
+  lv_init();
 	lv_disp_buf_init(&disp_buf, buf, NULL, LV_HOR_RES_MAX * 10);
 
 	/*Initialize the display*/
@@ -68,7 +76,23 @@ void setup()
 	indev_drv.read_cb = read_encoder;
 	lv_indev_drv_register(&indev_drv);
 
-	lv_demo_benchmark();
+	/* Create simple label */
+	lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
+	lv_label_set_text(label, "Hello Arduino! (V7.11.0)");
+	lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 0);
+
+	/* Create a slider in the center of the display */
+	lv_obj_t *slider = lv_slider_create(lv_scr_act(), NULL);
+	lv_obj_set_width(slider, LV_HOR_RES_MAX - 50); /*Set the width*/
+	lv_obj_set_height(slider, 30);
+	lv_obj_align(slider, NULL, LV_ALIGN_CENTER, 0, 0); /*Align to the center of the parent (screen)*/
+	lv_obj_set_event_cb(slider, slider_event_cb);			 /*Assign an event function*/
+
+	/* Create a label below the slider */
+	slider_label = lv_label_create(lv_scr_act(), NULL);
+	lv_label_set_text(slider_label, "0");
+	lv_obj_set_auto_realign(slider, true);
+	lv_obj_align(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
 
 	touchscreen.begin();
 	touchscreen.calibrate(LV_HOR_RES_MAX, LV_VER_RES_MAX);
