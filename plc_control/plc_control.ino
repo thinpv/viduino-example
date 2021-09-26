@@ -2,15 +2,12 @@
 extern "C"
 {
 #include "plc.h"
-#include "custom.h"
-#include "events_init.h"
+#include "src/custom/custom.h"
+#include "src/generated/events_init.h"
 }
-#include "gui_guider.h"
+#include "src/generated/gui_guider.h"
 
 #include "Arduino.h"
-
-#include <lvgl.h>
-#include <../lv_conf.h>
 #include "FrameBuffer.h"
 
 #define CAPACITOR_TOUCH
