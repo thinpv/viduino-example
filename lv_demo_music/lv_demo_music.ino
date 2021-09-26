@@ -1,7 +1,7 @@
 #include "Arduino.h"
 
 #include <lvgl.h>
-#include <../lv_conf.h>
+#include <lv_conf.h>
 #include "src/lv_demo_music.h"
 #include "FrameBuffer.h"
 

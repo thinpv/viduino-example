@@ -5,7 +5,7 @@
 
 #include "events_init.h"
 #include <stdio.h>
-#include "../lvgl/lvgl.h"
+#include "lvgl/lvgl.h"
 #include "../../plc.h"
 
 

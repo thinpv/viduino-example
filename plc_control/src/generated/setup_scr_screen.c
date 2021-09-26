@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "../lvgl/lvgl.h"
+#include "lvgl/lvgl.h"
 #include <stdio.h>
 #include "gui_guider.h"
 #include "events_init.h"

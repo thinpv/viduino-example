@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-#include "../lvgl/lvgl.h"
+#include "lvgl/lvgl.h"
 #include "guider_fonts/guider_fonts.h"
 
 typedef struct
