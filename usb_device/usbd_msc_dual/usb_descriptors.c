@@ -78,23 +78,8 @@ enum
 
 #define CONFIG_TOTAL_LEN    (TUD_CONFIG_DESC_LEN + TUD_MSC_DESC_LEN)
 
-#if CFG_TUSB_MCU == OPT_MCU_LPC175X_6X || CFG_TUSB_MCU == OPT_MCU_LPC177X_8X || CFG_TUSB_MCU == OPT_MCU_LPC40XX
-  // LPC 17xx and 40xx endpoint type (bulk/interrupt/iso) are fixed by its number
-  //  0 control, 1 In, 2 Bulk, 3 Iso, 4 In, 5 Bulk etc ...
-  #define EPNUM_MSC_OUT   0x02
-  #define EPNUM_MSC_IN    0x82
-
-#elif CFG_TUSB_MCU == OPT_MCU_SAMG
-  // SAMG doesn't support a same endpoint number with different direction IN and OUT
-  //  e.g EP1 OUT & EP1 IN cannot exist together
-  #define EPNUM_MSC_OUT   0x01
-  #define EPNUM_MSC_IN    0x82
-
-#else
-  #define EPNUM_MSC_OUT   0x01
-  #define EPNUM_MSC_IN    0x81
-
-#endif
+#define EPNUM_MSC_OUT   0x01
+#define EPNUM_MSC_IN    0x81
 
 uint8_t const desc_fs_configuration[] =
 {
