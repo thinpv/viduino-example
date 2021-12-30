@@ -88,7 +88,7 @@ void setup()
 
   lv_init();
 
-  framebuffer.begin();
+  framebuffer.begin(LCD_TYPE_RGB_800_480);
 
   lv_disp_buf_init(&disp_buf, buf, NULL, LV_HOR_RES_MAX * 10);
 
