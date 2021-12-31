@@ -1,5 +1,3 @@
-#include "Arduino.h"
-
 #include <lvgl.h>
 #include <lv_conf.h>
 #include "lv_demo_benchmark.h"
