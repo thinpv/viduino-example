@@ -1,7 +1,6 @@
 #include <lvgl.h>
 #include <lv_conf.h>
 #include "lv_demo_music.h"
-#include <touchscreen.h>
 #include "FrameBuffer.h"
 
 #define CAPACITOR_TOUCH
@@ -34,10 +33,8 @@ static const uint32_t screenWidth  = 480;
 static const uint32_t screenHeight = 272;
 
 static FrameBuffer framebuffer;
-static TouchScreen touchscreen;
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[screenWidth * 10];
-static int temp_touch;
 
 /* Display flushing */
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
